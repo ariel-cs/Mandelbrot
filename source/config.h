@@ -18,6 +18,7 @@ typedef struct{
 
 int mandelbrot(double cr,double ci, int max_iter);
 void mandelbrot_serial(unsigned char *buffer, const Config *cfg);
+void mandelbrot_openmp(unsigned char *buffer, const Config *cfg);
 
 unsigned char*aloca_buffer(int largura, int altura);
 int make_pgm(const char *nome, const unsigned char *buffer, int largura, int altura);

@@ -52,11 +52,11 @@ int erros(int argc, char *argv[], Config *cfg) {
 }
 
 
-static double roda_serial(const Config *cfg, unsigned char *buffer){
+static double tempo(void (*funcao)(unsigned char *, const Config *),const Config *cfg, unsigned char *buffer){
     struct timespec inicio, fim;
 
     clock_gettime(CLOCK_MONOTONIC, &inicio);
-    mandelbrot_serial(buffer, cfg);
+    funcao(buffer, cfg);
     clock_gettime(CLOCK_MONOTONIC, &fim);
 
     double segundos = (fim.tv_sec - inicio.tv_sec) + (fim.tv_nsec - inicio.tv_nsec) / 1e9;
@@ -75,9 +75,15 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    double tempo_serial = roda_serial(&cfg, buffer);
+    double tempo_serial = tempo(mandelbrot_serial, &cfg, buffer);
 
     if (!make_pgm("mandelbrot_aco4_serial.pgm", buffer, cfg.largura, cfg.altura)) {
+        free(buffer);
+        return 1;
+    }
+
+    double tempo_openmp = tempo(mandelbrot_openmp, &cfg, buffer);
+    if (!make_pgm("mandelbrot_aco4_openmp.pgm", buffer, cfg.largura, cfg.altura)) {
         free(buffer);
         return 1;
     }
@@ -89,6 +95,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     fprintf(tempos, "Serial: %.6f segundos\n", tempo_serial);
+    fprintf(tempos, "OpenMP: %.6f segundos\n", tempo_openmp);
     fclose(tempos);
 
     free(buffer);

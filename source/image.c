@@ -7,7 +7,7 @@ unsigned char *aloca_buffer(int largura, int altura){
     size_t total = (size_t)largura * (size_t)altura;
     unsigned char *buffer = malloc(total);
     if (buffer == NULL) {
-        fprintf(stderr, "Falha em alocar imagem\n");
+        fprintf(stderr, "Falha em alocar imagem [ERROR]\n");
     }
     return buffer;
 }

@@ -2,6 +2,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define REAL_MIN -2.0
+#define REAL_MAX 1.0
+#define IMAG_MIN -1.5
+#define IMAG_MAX 1.5
+
 #include <stddef.h>
 
 typedef struct{

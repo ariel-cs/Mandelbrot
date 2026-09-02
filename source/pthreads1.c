@@ -45,6 +45,7 @@ void mandelbrot_pthreads1(unsigned char *buffer, const Config *cfg){
         fprintf(stderr, "Falha ao alocar threads [ERROR]\n");
         free(threads);
         free(tarefas);
+        exit(1);
     }
 
     int linhas_thread = cfg->altura / n;
@@ -59,7 +60,11 @@ void mandelbrot_pthreads1(unsigned char *buffer, const Config *cfg){
         tarefas[i].linha_ini = linha_atual;
         tarefas[i].linha_fim = linha_atual + quantidade;
 
-        pthread_create(&threads[i], NULL, calculo, &tarefas[i]);
+        int valor = pthread_create(&threads[i], NULL, calculo, &tarefas[i]);
+        if(valor != 0){
+            fprintf(stderr, "Falha ao criar threads [ERROR]\n");
+            exit(1);
+        }
 
         linha_atual += quantidade;
     }

@@ -56,6 +56,7 @@ void mandelbrot_pthreads2(unsigned char *buffer, const Config *cfg){
         fprintf(stderr, "Falha ao alocar threads [ERROR]\n");
         free(threads);
         free(tarefas);
+        exit(1);
     }
 
     int prox_lin = 0;
@@ -68,7 +69,11 @@ void mandelbrot_pthreads2(unsigned char *buffer, const Config *cfg){
         tarefas[i].prox = &prox_lin;
         tarefas[i].mutex = &mutex;
 
-        pthread_create(&threads[i], NULL, calculo2, &tarefas[i]);
+        int valor = pthread_create(&threads[i], NULL, calculo2, &tarefas[i]);
+        if(valor != 0){
+            fprintf(stderr, "Falha ao criar threads [ERROR]\n");
+            exit(1);
+        }
     }
 
     for (int i = 0; i < n; i++) {

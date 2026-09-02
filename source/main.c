@@ -93,6 +93,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+
+    double tempo_pthreads2 = tempo(mandelbrot_pthreads2, &cfg, buffer);
+    if (!make_pgm("mandelbrot_aco4_pthreads2.pgm", buffer, cfg.largura, cfg.altura)) {
+        free(buffer);
+        return 1;
+    }
+
     FILE *tempos = fopen("times.txt", "w");
     if (tempos == NULL) {
         fprintf(stderr, "Falha em criar times.txt [ERROR]\n");
@@ -102,6 +109,7 @@ int main(int argc, char *argv[]) {
     fprintf(tempos, "Serial: %.6f segundos\n", tempo_serial);
     fprintf(tempos, "OpenMP: %.6f segundos\n", tempo_openmp);
     fprintf(tempos, "Pthreads1: %.6f segundos\n", tempo_pthreads1);
+    fprintf(tempos, "Pthreads2: %.6f segundos\n", tempo_pthreads2);
     fclose(tempos);
 
     free(buffer);

@@ -67,4 +67,7 @@ void mandelbrot_pthreads1(unsigned char *buffer, const Config *cfg){
     for (int i = 0; i < n; i++) {
         pthread_join(threads[i], NULL);
     }
+
+    free(threads);
+    free(tarefas);
 }

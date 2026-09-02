@@ -76,7 +76,6 @@ int main(int argc, char *argv[]) {
     }
 
     double tempo_serial = tempo(mandelbrot_serial, &cfg, buffer);
-
     if (!make_pgm("mandelbrot_aco4_serial.pgm", buffer, cfg.largura, cfg.altura)) {
         free(buffer);
         return 1;
@@ -84,6 +83,12 @@ int main(int argc, char *argv[]) {
 
     double tempo_openmp = tempo(mandelbrot_openmp, &cfg, buffer);
     if (!make_pgm("mandelbrot_aco4_openmp.pgm", buffer, cfg.largura, cfg.altura)) {
+        free(buffer);
+        return 1;
+    }
+
+    double tempo_pthreads1 = tempo(mandelbrot_pthreads1, &cfg, buffer);
+    if (!make_pgm("mandelbrot_aco4_pthreads1.pgm", buffer, cfg.largura, cfg.altura)) {
         free(buffer);
         return 1;
     }
@@ -96,6 +101,7 @@ int main(int argc, char *argv[]) {
     }
     fprintf(tempos, "Serial: %.6f segundos\n", tempo_serial);
     fprintf(tempos, "OpenMP: %.6f segundos\n", tempo_openmp);
+    fprintf(tempos, "Pthreads1: %.6f segundos\n", tempo_pthreads1);
     fclose(tempos);
 
     free(buffer);

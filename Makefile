@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fopenmp
+CFLAGS = -Wall -Wextra -fopenmp -pthread
 SRC = $(wildcard source/*.c)
 OBJDIR = objects
 OBJ = $(patsubst source/%.c, $(OBJDIR)/%.o, $(SRC))
